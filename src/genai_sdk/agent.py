@@ -103,7 +103,22 @@ class Agent:
             response = await self.provider.generate(provider_request)
             usage = response.usage
 
-            assistant_msg = Message(role="assistant", content=response.content)
+            assistant_msg = Message(
+                role="assistant",
+                content=response.content,
+                metadata={
+                    "tool_calls": [
+                        {
+                            "id": call.call_id,
+                            "type": "function",
+                            "function": {"name": call.name, "arguments": json.dumps(call.arguments)},
+                        }
+                        for call in response.tool_calls
+                    ]
+                }
+                if response.tool_calls
+                else {},
+            )
             messages.append(assistant_msg)
 
             if not response.tool_calls:

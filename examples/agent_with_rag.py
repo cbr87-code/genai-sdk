@@ -1,6 +1,6 @@
 import os
 
-from genai_sdk import Agent, AgentConfig, ModelConfig
+from genai_sdk import Agent, AgentConfig, GenerationConfig, ModelConfig
 from genai_sdk.providers import OpenAICompatibleProvider
 from genai_sdk.rag.base import Document
 from genai_sdk.rag.simple_vector import SimpleVectorRetriever
@@ -20,7 +20,10 @@ async def main():
     )
 
     agent = Agent(
-        config=AgentConfig(model=ModelConfig(model="gpt-4o-mini")),
+        config=AgentConfig(
+            model=ModelConfig(model="gpt-5-nano"),
+            generation=GenerationConfig(temperature=1.0),
+        ),
         provider=provider,
         retriever=retriever,
     )

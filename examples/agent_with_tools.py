@@ -1,6 +1,6 @@
 import os
 
-from genai_sdk import Agent, AgentConfig, ModelConfig
+from genai_sdk import Agent, AgentConfig, GenerationConfig, ModelConfig
 from genai_sdk.providers import OpenAICompatibleProvider
 from genai_sdk.tools.function import FunctionTool
 
@@ -25,7 +25,14 @@ async def main():
         },
         fn=weather_tool,
     )
-    agent = Agent(config=AgentConfig(model=ModelConfig(model="gpt-4o-mini")), provider=provider, tools=[tool])
+    agent = Agent(
+        config=AgentConfig(
+            model=ModelConfig(model="gpt-5-nano"),
+            generation=GenerationConfig(temperature=1.0),
+        ),
+        provider=provider,
+        tools=[tool],
+    )
     result = await agent.run("What's the weather in San Francisco?")
     print(result.output_text)
 

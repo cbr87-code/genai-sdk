@@ -41,7 +41,7 @@ pytest -q
 import asyncio
 import os
 
-from genai_sdk import Agent, AgentConfig, ModelConfig
+from genai_sdk import Agent, AgentConfig, GenerationConfig, ModelConfig
 from genai_sdk.providers import OpenAICompatibleProvider
 
 
@@ -51,7 +51,10 @@ async def main():
         api_key=os.environ["OPENAI_API_KEY"],
     )
     agent = Agent(
-        config=AgentConfig(model=ModelConfig(model="gpt-4o-mini")),
+        config=AgentConfig(
+            model=ModelConfig(model="gpt-5-nano"),
+            generation=GenerationConfig(temperature=1.0),
+        ),
         provider=provider,
     )
     result = await agent.run("Hello")

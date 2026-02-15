@@ -34,7 +34,20 @@ class OpenAICompatibleProvider(Provider):
 
     @staticmethod
     def _messages_payload(messages: list[Message]) -> list[dict[str, Any]]:
-        return [{"role": m.role, "content": m.content, "name": m.name} for m in messages]
+        payload: list[dict[str, Any]] = []
+        for m in messages:
+            msg: dict[str, Any] = {"role": m.role, "content": m.content}
+            if m.name:
+                msg["name"] = m.name
+            if m.tool_call_id:
+                msg["tool_call_id"] = m.tool_call_id
+            tool_calls = m.metadata.get("tool_calls")
+            if tool_calls:
+                msg["tool_calls"] = tool_calls
+                if not m.content:
+                    msg["content"] = None
+            payload.append(msg)
+        return payload
 
     async def generate(self, request: ProviderRequest) -> ProviderResponse:
         """Execute a chat completion request and normalize the response."""

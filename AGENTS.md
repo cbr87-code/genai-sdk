@@ -19,3 +19,9 @@ Scope: entire repository.
 ## Example Execution Note
 - Running `examples/*.py` may require unsandboxed command execution if network access is restricted in the sandbox (for example, DNS/socket blocks).
 - If an example hangs or fails with connection/DNS errors, rerun it outside sandbox permissions.
+
+## Git Workflow
+- Before committing, inspect changes with `git status --short`.
+- Commit all requested changes with a clear message (for example: `git add -A && git commit -m "<message>"`).
+- Push to the active branch's remote after commit (for example on `main`: `git push origin main`).
+- If `git push` fails in sandbox due DNS/network resolution errors, rerun push with unsandboxed permissions.

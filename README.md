@@ -1,2 +1,3 @@
 # genai-sdk
-GenAI SDK
+
+Personal playground repo.
